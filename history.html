@@ -1,0 +1,296 @@
+
+
+
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+
+
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>Insert title here</title>
+<style type="text/css">
+body{
+margin: 0;
+padding: 0
+}
+
+.videoselector
+{
+	cursor: pointer;
+}
+</style>
+
+<script src='/static/js/jquery-1.11.0.min.js'></script>
+<script src='/static/js/json2.js'></script>
+<script>
+
+$(document).ready(function() {
+	$('.videoselector').click(function(event) {
+		event.preventDefault();
+		var clip_name = $(this).text();
+		var frame = document.getElementById('frame');
+		frame.src = "iframe.jsp?name="+clip_name;
+	});
+	
+	$('#show_more').click(function(event) {
+		event.preventDefault();
+		top.location.href = "/VideoServer/index.jsp?history="+(420 + 60)
+
+	});
+});
+</script>
+
+</head>
+<body>
+<table width="100%" style="border-spacing: 0px;">
+<tr>
+<td valign="top">
+<iframe id="frame" width="768" height="432" src="iframe.jsp"></iframe>
+<br>
+<button>Ladda ner filmen</button>
+<button id="show_more">Visa fler klipp</button>
+
+</td>
+<td>
+<div style="height:99vh;border:0px solid #ccc;font:16px/26px Georgia, Garamond, Serif;overflow:auto;">
+First clip: 2016-04-17 18:35:24<br>
+
+<span class="videoselector" id="name">flight-2016-04-17 18_37_36-camera1</span><br>
+
+<span class="videoselector" id="name">flight-2016-04-17 18_37_36-camera4</span><br>
+
+<span class="videoselector" id="name">flight-2016-04-17 18_37_36-camera5</span><br>
+
+<span class="videoselector" id="name">flight-2016-04-17 18_40_06-camera1</span><br>
+
+<span class="videoselector" id="name">flight-2016-04-17 18_40_06-camera4</span><br>
+
+<span class="videoselector" id="name">flight-2016-04-17 18_40_06-camera5</span><br>
+
+<span class="videoselector" id="name">flight-2016-04-17 18_42_36-camera1</span><br>
+
+<span class="videoselector" id="name">flight-2016-04-17 18_42_36-camera4</span><br>
+
+<span class="videoselector" id="name">flight-2016-04-17 18_42_36-camera5</span><br>
+
+<span class="videoselector" id="name">flight-2016-04-17 18_45_06-camera1</span><br>
+
+<span class="videoselector" id="name">flight-2016-04-17 18_45_06-camera4</span><br>
+
+<span class="videoselector" id="name">flight-2016-04-17 18_45_06-camera5</span><br>
+
+<span class="videoselector" id="name">flight-2016-04-17 18_47_36-camera1</span><br>
+
+<span class="videoselector" id="name">flight-2016-04-17 18_47_36-camera4</span><br>
+
+<span class="videoselector" id="name">flight-2016-04-17 18_47_36-camera5</span><br>
+
+<span class="videoselector" id="name">flight-2016-04-17 18_50_06-camera1</span><br>
+
+<span class="videoselector" id="name">flight-2016-04-17 18_50_06-camera4</span><br>
+
+<span class="videoselector" id="name">flight-2016-04-17 18_50_06-camera5</span><br>
+
+<span class="videoselector" id="name">flight-2016-04-17 18_52_36-camera1</span><br>
+
+<span class="videoselector" id="name">flight-2016-04-17 18_52_36-camera4</span><br>
+
+<span class="videoselector" id="name">flight-2016-04-17 18_52_36-camera5</span><br>
+
+<span class="videoselector" id="name">flight-2016-04-17 18_55_06-camera1</span><br>
+
+<span class="videoselector" id="name">flight-2016-04-17 18_55_06-camera4</span><br>
+
+<span class="videoselector" id="name">flight-2016-04-17 18_55_06-camera5</span><br>
+
+<span class="videoselector" id="name">flight-2016-04-17 18_57_36-camera1</span><br>
+
+<span class="videoselector" id="name">flight-2016-04-17 18_57_36-camera4</span><br>
+
+<span class="videoselector" id="name">flight-2016-04-17 18_57_36-camera5</span><br>
+
+<span class="videoselector" id="name">flight-2016-04-17 19_00_07-camera1</span><br>
+
+<span class="videoselector" id="name">flight-2016-04-17 19_00_07-camera4</span><br>
+
+<span class="videoselector" id="name">flight-2016-04-17 19_00_07-camera5</span><br>
+
+<span class="videoselector" id="name">flight-2016-04-17 19_02_37-camera1</span><br>
+
+<span class="videoselector" id="name">flight-2016-04-17 19_02_37-camera4</span><br>
+
+<span class="videoselector" id="name">flight-2016-04-17 19_02_37-camera5</span><br>
+
+<span class="videoselector" id="name">flight-2016-04-17 19_05_07-camera1</span><br>
+
+<span class="videoselector" id="name">flight-2016-04-17 19_05_07-camera4</span><br>
+
+<span class="videoselector" id="name">flight-2016-04-17 19_05_07-camera5</span><br>
+
+<span class="videoselector" id="name">flight-2016-04-17 19_06_20-camera1</span><br>
+
+<span class="videoselector" id="name">flight-2016-04-17 19_06_20-camera4</span><br>
+
+<span class="videoselector" id="name">flight-2016-04-17 19_06_20-camera5</span><br>
+
+<span class="videoselector" id="name">flight-2016-04-17 19_08_51-camera1</span><br>
+
+<span class="videoselector" id="name">flight-2016-04-17 19_08_51-camera4</span><br>
+
+<span class="videoselector" id="name">flight-2016-04-17 19_08_51-camera5</span><br>
+
+<span class="videoselector" id="name">flight-2016-04-17 19_11_21-camera1</span><br>
+
+<span class="videoselector" id="name">flight-2016-04-17 19_11_21-camera4</span><br>
+
+<span class="videoselector" id="name">flight-2016-04-17 19_11_21-camera5</span><br>
+
+<span class="videoselector" id="name">flight-2016-04-17 19_13_51-camera1</span><br>
+
+<span class="videoselector" id="name">flight-2016-04-17 19_13_51-camera4</span><br>
+
+<span class="videoselector" id="name">flight-2016-04-17 19_13_51-camera5</span><br>
+
+<span class="videoselector" id="name">flight-2016-04-17 19_16_21-camera1</span><br>
+
+<span class="videoselector" id="name">flight-2016-04-17 19_16_21-camera4</span><br>
+
+<span class="videoselector" id="name">flight-2016-04-17 19_16_21-camera5</span><br>
+
+<span class="videoselector" id="name">flight-2016-04-17 19_18_51-camera1</span><br>
+
+<span class="videoselector" id="name">flight-2016-04-17 19_18_51-camera4</span><br>
+
+<span class="videoselector" id="name">flight-2016-04-17 19_18_51-camera5</span><br>
+
+<span class="videoselector" id="name">flight-2016-04-17 19_21_21-camera1</span><br>
+
+<span class="videoselector" id="name">flight-2016-04-17 19_21_21-camera4</span><br>
+
+<span class="videoselector" id="name">flight-2016-04-17 19_21_21-camera5</span><br>
+
+<span class="videoselector" id="name">flight-2016-04-17 19_23_51-camera1</span><br>
+
+<span class="videoselector" id="name">flight-2016-04-17 19_23_51-camera4</span><br>
+
+<span class="videoselector" id="name">flight-2016-04-17 19_23_51-camera5</span><br>
+
+<span class="videoselector" id="name">flight-2016-04-17 19_26_21-camera1</span><br>
+
+<span class="videoselector" id="name">flight-2016-04-17 19_26_21-camera4</span><br>
+
+<span class="videoselector" id="name">flight-2016-04-17 19_26_21-camera5</span><br>
+
+<span class="videoselector" id="name">flight-2016-04-17 19_28_51-camera1</span><br>
+
+<span class="videoselector" id="name">flight-2016-04-17 19_28_51-camera4</span><br>
+
+<span class="videoselector" id="name">flight-2016-04-17 19_28_51-camera5</span><br>
+
+<span class="videoselector" id="name">flight-2016-04-17 19_31_21-camera1</span><br>
+
+<span class="videoselector" id="name">flight-2016-04-17 19_31_21-camera4</span><br>
+
+<span class="videoselector" id="name">flight-2016-04-17 19_31_21-camera5</span><br>
+
+<span class="videoselector" id="name">flight-2016-04-17 19_33_51-camera1</span><br>
+
+<span class="videoselector" id="name">flight-2016-04-17 19_33_51-camera4</span><br>
+
+<span class="videoselector" id="name">flight-2016-04-17 19_33_51-camera5</span><br>
+
+<span class="videoselector" id="name">flight-2016-04-17 19_36_21-camera1</span><br>
+
+<span class="videoselector" id="name">flight-2016-04-17 19_36_21-camera4</span><br>
+
+<span class="videoselector" id="name">flight-2016-04-17 19_36_21-camera5</span><br>
+
+<span class="videoselector" id="name">flight-2016-04-17 19_37_59-camera1</span><br>
+
+<span class="videoselector" id="name">flight-2016-04-17 19_37_59-camera4</span><br>
+
+<span class="videoselector" id="name">flight-2016-04-17 19_37_59-camera5</span><br>
+
+<span class="videoselector" id="name">flight-2016-04-17 19_40_30-camera1</span><br>
+
+<span class="videoselector" id="name">flight-2016-04-17 19_40_30-camera4</span><br>
+
+<span class="videoselector" id="name">flight-2016-04-17 19_40_30-camera5</span><br>
+
+<span class="videoselector" id="name">flight-2016-04-17 19_43_00-camera1</span><br>
+
+<span class="videoselector" id="name">flight-2016-04-17 19_43_00-camera4</span><br>
+
+<span class="videoselector" id="name">flight-2016-04-17 19_43_00-camera5</span><br>
+
+<span class="videoselector" id="name">flight-2016-04-17 19_45_30-camera1</span><br>
+
+<span class="videoselector" id="name">flight-2016-04-17 19_45_30-camera4</span><br>
+
+<span class="videoselector" id="name">flight-2016-04-17 19_45_30-camera5</span><br>
+
+<span class="videoselector" id="name">flight-2016-04-17 19_48_00-camera1</span><br>
+
+<span class="videoselector" id="name">flight-2016-04-17 19_48_00-camera4</span><br>
+
+<span class="videoselector" id="name">flight-2016-04-17 19_48_00-camera5</span><br>
+
+<span class="videoselector" id="name">flight-2016-04-17 19_50_30-camera1</span><br>
+
+<span class="videoselector" id="name">flight-2016-04-17 19_50_30-camera4</span><br>
+
+<span class="videoselector" id="name">flight-2016-04-17 19_50_30-camera5</span><br>
+
+<span class="videoselector" id="name">flight-2016-04-17 19_53_00-camera1</span><br>
+
+<span class="videoselector" id="name">flight-2016-04-17 19_53_00-camera4</span><br>
+
+<span class="videoselector" id="name">flight-2016-04-17 19_53_00-camera5</span><br>
+
+<span class="videoselector" id="name">flight-2016-04-17 19_55_30-camera1</span><br>
+
+<span class="videoselector" id="name">flight-2016-04-17 19_55_30-camera4</span><br>
+
+<span class="videoselector" id="name">flight-2016-04-17 19_55_30-camera5</span><br>
+
+<span class="videoselector" id="name">flight-2016-04-17 19_58_00-camera1</span><br>
+
+<span class="videoselector" id="name">flight-2016-04-17 19_58_00-camera4</span><br>
+
+<span class="videoselector" id="name">flight-2016-04-17 19_58_00-camera5</span><br>
+
+<span class="videoselector" id="name">flight-2016-04-17 20_00_30-camera1</span><br>
+
+<span class="videoselector" id="name">flight-2016-04-17 20_00_30-camera4</span><br>
+
+<span class="videoselector" id="name">flight-2016-04-17 20_00_30-camera5</span><br>
+
+<span class="videoselector" id="name">flight-2016-04-17 20_03_00-camera1</span><br>
+
+<span class="videoselector" id="name">flight-2016-04-17 20_03_00-camera4</span><br>
+
+<span class="videoselector" id="name">flight-2016-04-17 20_03_00-camera5</span><br>
+
+<span class="videoselector" id="name">flight-2016-04-17 20_05_30-camera1</span><br>
+
+<span class="videoselector" id="name">flight-2016-04-17 20_05_30-camera4</span><br>
+
+<span class="videoselector" id="name">flight-2016-04-17 20_05_30-camera5</span><br>
+
+<span class="videoselector" id="name">flight-2016-04-17 20_08_00-camera1</span><br>
+
+<span class="videoselector" id="name">flight-2016-04-17 20_08_00-camera4</span><br>
+
+<span class="videoselector" id="name">flight-2016-04-17 20_08_00-camera5</span><br>
+
+</div>
+</td>
+</tr>
+</table>
+
+</body>
+</html>

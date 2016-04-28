@@ -1,0 +1,116 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+  <head><meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+    <!-- http://home.bodyflight.se/VideoServer/index.jsp?history=180 -->
+    <base href="http://home.bodyflight.se/VideoServer/">
+    
+    <title>Dynamic clip Viewer</title>
+    <style type="text/css">
+
+body {
+  margin: 0;
+  padding: 0
+}
+
+.videoselector {
+  cursor: pointer;
+}
+
+.videoselector:hover {
+  background-color: lightgrey;
+}
+
+.playing {
+  background-color: yellow;
+}
+
+    </style>
+
+    <script src='http://bodyflight.arcanel.se/static/jquery-1.11.0.min.js'></script>
+    <script src='http://bodyflight.arcanel.se/static/json2.js'></script>
+    <script src='http://bodyflight.arcanel.se/static/repo.js'></script>
+    <script>
+
+$(document).ready(function() {
+
+  $('.videoselector').click(function(event) {
+    event.preventDefault();
+    var clip_name = $(this).text();
+    var camera1 = document.getElementById('camera1');
+    var camera4 = document.getElementById('camera4');
+    var camera5 = document.getElementById('camera5');
+    camera1.src = "iframe.jsp?name=flight-"+clip_name+"-camera1";
+    camera4.src = "iframe.jsp?name=flight-"+clip_name+"-camera4";
+    camera5.src = "iframe.jsp?name=flight-"+clip_name+"-camera5";
+    $('.videoselector.playing').removeClass('playing');
+    this.classList.add("playing")
+  });
+  
+  $('#more').click(function(event) {
+    event.preventDefault();
+    var html;
+    $.ajax({
+      url: "http://bodyflight.arcanel.se/history.html",
+      cache: false,
+      async: false,
+      dataType: "html",
+      success: function(data){
+        html = data;
+      }
+    });
+    
+    var times = new Set();
+    var cameras = new Set();
+    
+    var videos = $(html).find(".videoselector").map(function() {
+      return $(this).text();
+    });
+    
+    videos.each(function(index, value){
+    /* value = "flight-2016-04-20 19_20_35-camera1" */
+    var parts = value.split("-");
+    var time = parts.slice(1, -1).join("-");
+    times.add(time);
+    var camera = parts.slice(-1)[0];
+    cameras.add(camera);
+    });
+    
+    console.log([...cameras]);
+    console.log([...times]);
+  });
+});
+    </script>
+        
+  </head>
+  <body>
+    <table width="80%" style="border-spacing: 0px;">
+    <!-- table border="1" -->
+      <tr>
+        <td valign="top">
+          <iframe id="camera1" width="768" height="432" frameborder="0" src="http://bodyflight.arcanel.se/static/cam1.html"></iframe><br/>
+        </td>
+        <td valign="top">
+          <div id="vids" style="height:20em;border:0px solid #ccc;font:16px/26px Georgia, Garamond, Serif;overflow:auto;">
+            <b>1)</b> <span class="videoselector">2016-04-09 19_33_57</span><br>
+            <b>2)</b> <span class="videoselector">2016-04-09 19_36_58</span><br>
+            <b>3)</b> <span class="videoselector">2016-04-09 19_40_28</span><br>
+            <b>4)</b> <span class="videoselector">2016-04-09 19_44_28</span><br>
+            <b>5)</b> <span class="videoselector">2016-04-09 19_48_28</span><br>
+            <b>6)</b> <span class="videoselector">2016-04-09 19_52_28</span><br>
+            <b>7)</b> <span class="videoselector">2016-04-09 19_56_28</span><br>
+            <b>8)</b> <span class="videoselector">2016-04-09 20_00_28</span><br>
+            <button id="more">More</button>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td valign="top">
+          <iframe id="camera4" width="768" height="432" frameborder="0" src="http://bodyflight.arcanel.se/static/cam4.html"></iframe><br/>
+        </td>
+        <td valign="top">
+          <iframe id="camera5" width="768" height="432" frameborder="0" src="http://bodyflight.arcanel.se/static/cam5.html"></iframe><br/>
+        </td>
+      </tr>
+    <table>
+  </body>
+</html>
