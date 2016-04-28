@@ -1,3 +1,4 @@
+<?php
 /**
   * Get a web file (HTML, XHTML, XML, image, etc.) from a URL.  Return an
   * array containing the HTTP server response header fields and content.
@@ -36,3 +37,4 @@ function get_web_page( $url )
     $header['content'] = $content;
     return $header;
 }
+?>
