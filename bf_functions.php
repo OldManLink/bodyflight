@@ -6,11 +6,66 @@ date_default_timezone_set('CET');
 // Set up tab stops: $t[0] = no tabs, $t[9] = 9 tabs.
 unset($t);$t[0]="";for($i=1;$i<10;$i++)$t[$i]=$t[$i-1]."\t";
 
+$gStoragePath = "storage/serverstate.php";
+$gServerState = null;
 $tGetArgsCount = count($_GET);
 $pFlags = isset($_GET['flags']) ? trim($_GET['flags']) : 42;
 
 $tPrintDebug = $pFlags == 73;
 printDebug("<!-- debugging output...");
+
+/**
+  * Load the old server state, or create it if it didn't previously exist
+  */
+function loadServerState()
+{
+    global $gServerState, $gStoragePath;
+    if(file_exists($gStoragePath))
+    {
+        $gServerState = unserialize(file_get_contents($gStoragePath));
+    } else
+    {
+        $gServerState = array(
+            "flights" => array(),
+            "lastFlight" => 0
+        );
+        saveServerState();
+    }
+}
+
+/**
+  * Add the supplied array of timestamps to the server state
+  */
+function addTimestamps($timestamps)
+{
+    global $gServerState;
+    $oldFlights = $gServerState['flights'];
+    $lastFlight = $gServerState['lastFlight'];
+    print("<pre>\n");
+    foreach ($timestamps as $timestamp)
+    {
+        if($timestamp > $lastFlight)
+        {
+            $oldFlights[] = $timestamp;
+            $lastFlight = $timestamp;
+            print(date("Y-m-d H:i:s", $timestamp)." added\n");
+        };
+    };
+    unset($timestamp); // break the reference with the last element
+    print("</pre>\n");
+    $gServerState['lastFlight'] = $lastFlight;
+    $gServerState['flights'] = $oldFlights;
+}
+
+/**
+  * Save the current server state
+  */
+function saveServerState()
+{
+    global $gServerState, $gStoragePath;
+    $gServerState['latestCheck'] = strtotime(date("Y-m-d H:i:s"));
+    file_put_contents($gStoragePath, serialize($gServerState));
+}
 
 /**
   * If the global debug flag is set, print the supplied debug message, otherwise do nothing.
@@ -40,7 +95,7 @@ function get_web_page( $url )
         CURLOPT_HEADER         => false,		// Don't return headers
         CURLOPT_FOLLOWLOCATION => true,			// Follow redirects
         CURLOPT_ENCODING       => "",			// Handle all encodings
-        CURLOPT_AUTOREFERER    => true,			// Set referer on redirect
+        CURLOPT_AUTOREFERER    => true,			// Set referrer on redirect
         CURLOPT_CONNECTTIMEOUT => 120,			// Timeout on connect
         CURLOPT_TIMEOUT        => 120,			// Timeout on response
         CURLOPT_MAXREDIRS      => 10,			// Stop after 10 redirects
