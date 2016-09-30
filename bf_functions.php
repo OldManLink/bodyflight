@@ -1,4 +1,26 @@
 <?php
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+date_default_timezone_set('CET');
+
+// Set up tab stops: $t[0] = no tabs, $t[9] = 9 tabs.
+unset($t);$t[0]="";for($i=1;$i<10;$i++)$t[$i]=$t[$i-1]."\t";
+
+$tGetArgsCount = count($_GET);
+$pFlags = isset($_GET['flags']) ? trim($_GET['flags']) : 42;
+
+$tPrintDebug = $pFlags == 73;
+printDebug("<!-- debugging output...");
+
+/**
+  * If the global debug flag is set, print the supplied debug message, otherwise do nothing.
+  */
+function printDebug($message)
+{
+    global $tPrintDebug, $t;
+    if ($tPrintDebug) print "$t[1]$message\n";
+}
+
 /**
   * Get a web file (HTML, XHTML, XML, image, etc.) from a URL.  Return an
   * array containing the HTTP server response header fields and content.
