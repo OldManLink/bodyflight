@@ -19,7 +19,8 @@ print("<pre>\n");
 if ($refreshDelay >= 60 || $tLastFlight == 0)
 {
     $pHistory = $tLastFlight > 0 ? "?history=".(round(($tNow - $tLastFlight)/60) + 1) : "";
-    print("Local time: ".date("Y-m-d H:i:s", $tNow).", Requesting ".$url.$pHistory."\n");
+    print("Local time: ".date("Y-m-d H:i:s", $tNow)."\n");
+    print("Requesting ".$url.$pHistory."\n");
     $result = get_web_page( $url.$pHistory );
 
     if ( $result['errno'] != 0 )
