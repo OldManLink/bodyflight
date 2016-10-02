@@ -41,7 +41,8 @@ function addTimestamps($timestamps)
     global $gServerState;
     $oldFlights = $gServerState['flights'];
     $lastFlight = $gServerState['lastFlight'];
-    print("<pre>\n");
+    print("Previous last flight: ".date("Y-m-d H:i:s", $lastFlight)."\n");
+    printf("Received %d flights\n", count($timestamps));
     foreach ($timestamps as $timestamp)
     {
         if($timestamp > $lastFlight)
@@ -49,10 +50,12 @@ function addTimestamps($timestamps)
             $oldFlights[] = $timestamp;
             $lastFlight = $timestamp;
             print(date("Y-m-d H:i:s", $timestamp)." added\n");
+        } else
+        {
+            print(date("Y-m-d H:i:s", $timestamp)." skipped\n");
         };
     };
     unset($timestamp); // break the reference with the last element
-    print("</pre>\n");
     $gServerState['lastFlight'] = $lastFlight;
     $gServerState['flights'] = $oldFlights;
 }

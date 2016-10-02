@@ -15,9 +15,11 @@ $tLatest = $gServerState['latestCheck'];
 $tLastFlight = $gServerState['lastFlight'];
 $refreshDelay = $tNow - $tLatest;
 
+print("<pre>\n");
 if ($refreshDelay >= 60 || $tLastFlight == 0)
 {
-    $pHistory = $tLastFlight > 0 ? "?history=".(floor(($tNow - $tLastFlight)/60) + 1) : "";
+    $pHistory = $tLastFlight > 0 ? "?history=".(round(($tNow - $tLastFlight)/60) + 1) : "";
+    print("Local time: ".date("Y-m-d H:i:s", $tNow).", Requesting ".$url.$pHistory."\n");
     $result = get_web_page( $url.$pHistory );
 
     if ( $result['errno'] != 0 )
@@ -44,5 +46,9 @@ if ($refreshDelay >= 60 || $tLastFlight == 0)
     }
     addTimestamps($tFlights);
     saveServerState();
+} else
+{
+    printf("Waiting %d seconds for next refresh\n", 60 - $refreshDelay);
 };
+print("</pre>\n");
 ?>
