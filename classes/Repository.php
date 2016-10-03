@@ -1,0 +1,121 @@
+<?php
+class Repository
+{
+	private $flights = array();
+	private $lastFlight = 0;
+	private $fileName;
+    private $dirty = false;
+	
+    function Repository($flight) 
+    {
+        $this->initializeFileName($flight);
+        if ($this->isSaved()) $this->readFromStorage();
+    }
+
+    function addFlights($newFlights)
+    {
+		foreach (array_filter($newFlights, array($this, "shouldContain")) as $flight)
+    	{
+        	if($flight > $this->lastFlight)
+        	{
+            	$this->flights[] = $flight;
+            	$this->lastFlight = $flight;
+                $this->makeDirty();
+            	print(date("Y-m-d H:i:s", $flight)." added\n");
+        	} else
+        	{
+            	print(date("Y-m-d H:i:s", $flight)." skipped\n");
+        	};
+    	};
+        $this->saveToStorage();
+
+        return array_values(array_filter($newFlights, array($this, "shouldReject")));
+    }
+
+	function getFlights()
+    {
+        return $this->flights;
+    }
+
+	function getLastFlight()
+    {
+        return $this->lastFlight;
+    }
+
+	function getFileName()
+    {
+        return $this->fileName;
+    }
+
+    public function flightCount()
+    {
+        return count($this->flights);
+    }
+
+    /**
+     * Private methods
+     */
+
+    private function makeDirty()
+    {
+    	$this->dirty = true;
+    }
+
+    private function makeClean()
+    {
+    	$this->dirty = false;
+    }
+
+    private function initializeFileName($flight)
+    {
+        $this->fileName = $this->generateFileName($flight);
+    }
+
+    private function isSaved()
+    {
+        return file_exists($this->storage());
+    }
+
+    private function saveToStorage()
+    {
+        if($this->dirty)
+        {
+            file_put_contents($this->storage(), serialize($this));
+            $this->makeClean();
+        }
+    }
+
+    private function readFromStorage()
+    {
+        $this->copyFrom(unserialize(file_get_contents($this->storage())));
+        $this->makeClean();
+    }
+
+    private function shouldContain($flight)
+    {
+        return strcmp ($this->fileName, $this->generateFileName($flight)) == 0;
+    }
+
+    private function shouldReject($flight)
+    {
+        return $flight > $this->lastFlight && !$this->shouldContain($flight);
+    }
+
+    private function generateFileName($flight)
+    {
+    	return date("Ym", $flight);
+    }
+
+    private function storage()
+    {
+    	return "../storage/".$this->fileName.".php";
+    }
+
+    private function copyFrom($anotherRepo)
+    {
+    	$this->flights = $anotherRepo->flights;
+    	$this->lastFlight = $anotherRepo->lastFlight;
+    	$this->fileName = $anotherRepo->fileName;
+    }
+}
+?>
