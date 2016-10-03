@@ -1,12 +1,12 @@
 <?php
-class Repository
+class Bucket
 {
 	private $flights = array();
 	private $lastFlight = 0;
 	private $fileName;
     private $dirty = false;
 	
-    function Repository($flight) 
+    function Bucket($flight)
     {
         $this->initializeFileName($flight);
         if ($this->isSaved()) $this->readFromStorage();
@@ -111,11 +111,11 @@ class Repository
     	return "../storage/".$this->fileName.".php";
     }
 
-    private function copyFrom($anotherRepo)
+    private function copyFrom($anotherBucket)
     {
-    	$this->flights = $anotherRepo->flights;
-    	$this->lastFlight = $anotherRepo->lastFlight;
-    	$this->fileName = $anotherRepo->fileName;
+    	$this->flights = $anotherBucket->flights;
+    	$this->lastFlight = $anotherBucket->lastFlight;
+    	$this->fileName = $anotherBucket->fileName;
     }
 }
 ?>
