@@ -1,20 +1,21 @@
 <?php
-class Bucket
+require_once('../classes/PersistentObject.php');
+
+class Bucket extends PersistentObject
 {
 	private $flights = array();
 	private $lastFlight = 0;
 	private $fileName;
-    private $dirty = false;
 	
-    function Bucket($flight)
-    {
-        $this->initializeFileName($flight);
-        if ($this->isSaved()) $this->readFromStorage();
-    }
-
     public static function generateFileName($flight)
     {
         return date("Ym", $flight);
+    }
+
+    public function Bucket($flight)
+    {
+        $this->initializeFileName($flight);
+        $this->readFromStorage();
     }
 
     public function addFlights($newFlights)
@@ -58,64 +59,38 @@ class Bucket
     }
 
     /**
-     * Private methods
+     * Protected methods
      */
 
-    private function makeDirty()
+    protected function storage()
     {
-    	$this->dirty = true;
+        return $this->storageRoot.$this->fileName.".php";
     }
 
-    private function makeClean()
+    protected function copyFrom($anotherBucket)
     {
-    	$this->dirty = false;
+        $this->flights = $anotherBucket->flights;
+        $this->lastFlight = $anotherBucket->lastFlight;
+        $this->fileName = $anotherBucket->fileName;
     }
+    
+    /**
+     * Private methods
+     */
 
     private function initializeFileName($flight)
     {
         $this->fileName = $this->generateFileName($flight);
     }
 
-    private function isSaved()
-    {
-        return file_exists($this->storage());
-    }
-
-    private function saveToStorage()
-    {
-        if($this->dirty)
-        {
-            file_put_contents($this->storage(), serialize($this));
-            $this->makeClean();
-        }
-    }
-
-    private function readFromStorage()
-    {
-        $this->copyFrom(unserialize(file_get_contents($this->storage())));
-        $this->makeClean();
-    }
-
     private function shouldContain($flight)
     {
-        return strcmp ($this->fileName, $this->generateFileName($flight)) == 0;
+        return strcmp($this->fileName, $this->generateFileName($flight)) == 0;
     }
 
     private function shouldReject($flight)
     {
         return $flight > $this->lastFlight && !$this->shouldContain($flight);
-    }
-
-    private function storage()
-    {
-    	return "../storage/".$this->fileName.".php";
-    }
-
-    private function copyFrom($anotherBucket)
-    {
-    	$this->flights = $anotherBucket->flights;
-    	$this->lastFlight = $anotherBucket->lastFlight;
-    	$this->fileName = $anotherBucket->fileName;
     }
 }
 ?>
