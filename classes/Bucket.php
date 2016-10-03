@@ -12,7 +12,12 @@ class Bucket
         if ($this->isSaved()) $this->readFromStorage();
     }
 
-    function addFlights($newFlights)
+    public static function generateFileName($flight)
+    {
+        return date("Ym", $flight);
+    }
+
+    public function addFlights($newFlights)
     {
 		foreach (array_filter($newFlights, array($this, "shouldContain")) as $flight)
     	{
@@ -32,17 +37,17 @@ class Bucket
         return array_values(array_filter($newFlights, array($this, "shouldReject")));
     }
 
-	function getFlights()
+	public function getFlights()
     {
         return $this->flights;
     }
 
-	function getLastFlight()
+	public function getLastFlight()
     {
         return $this->lastFlight;
     }
 
-	function getFileName()
+	public function getFileName()
     {
         return $this->fileName;
     }
@@ -99,11 +104,6 @@ class Bucket
     private function shouldReject($flight)
     {
         return $flight > $this->lastFlight && !$this->shouldContain($flight);
-    }
-
-    private function generateFileName($flight)
-    {
-    	return date("Ym", $flight);
     }
 
     private function storage()
