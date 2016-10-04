@@ -1,5 +1,5 @@
 <?php
-require_once('../classes/PersistentObject.php');
+require_once('PersistentObject.php');
 
 class Bucket extends PersistentObject
 {
@@ -64,7 +64,7 @@ class Bucket extends PersistentObject
 
     protected function storage()
     {
-        return $this->storageRoot.$this->fileName.".php";
+        return $this->getStorageRoot().$this->fileName.".php";
     }
 
     protected function copyFrom($anotherBucket)

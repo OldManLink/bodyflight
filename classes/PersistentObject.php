@@ -1,11 +1,16 @@
 <?php
+require_once('GlobalStorage.php');
 abstract class PersistentObject
 {
     private $dirty = false;
-    protected $storageRoot = "../storage/";
-    
+
     abstract protected function storage();
     abstract protected function copyFrom($anotherObject);
+
+    protected function getStorageRoot()
+    {
+        return GlobalStorage::$storageRoot;
+    }
 
     protected function saveToStorage()
     {

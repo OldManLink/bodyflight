@@ -1,4 +1,5 @@
 <?php
+require_once('PersistentObject.php');
 require_once('Bucket.php');
 
 class Repository extends PersistentObject
@@ -13,7 +14,13 @@ class Repository extends PersistentObject
 
     public function addFlights($newFlights)
     {
-        $this->makeDirty();
+        $tFlights = $newFlights;
+        while(count($tFlights) > 0)
+        {
+            $tBucket = $this->getBucket($tFlights[0]);
+            $tFlights = $tBucket->addFlights($tFlights);
+            if($tBucket->isDirty()) $this->makeDirty();
+        }
         $this->saveToStorage();
     }
 
@@ -23,7 +30,7 @@ class Repository extends PersistentObject
 
     protected function storage()
     {
-        return $this->storageRoot."repository.php";
+        return $this->getStorageRoot()."repository.php";
     }
 
     protected function copyFrom($anotherRepo)
@@ -35,5 +42,15 @@ class Repository extends PersistentObject
     /**
      * Private methods
      */
+    private function getBucket($flight)
+    {
+        $tBucketName = Bucket::generateFileName($flight);
+        if(!in_array($tBucketName, $this->bucketNames))
+        {
+            $this->bucketNames[] = $tBucketName;
+            $this->makeDirty();
+        };
+        return new Bucket($flight);
+    }
 }
 ?>

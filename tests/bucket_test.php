@@ -4,23 +4,28 @@ require_once('../classes/Bucket.php');
 
 class TestOfBucket extends UnitTestCase
 {
-    private $storagePath = "../storage/";
     private $testFlight0 = "2012-05-31 23:59:59";
     private $testFlight1 = "2012-06-05 12:34:56";
     private $testFlight2 = "2012-07-01 00:00:00";
-    private $fileName = "201206";
+    private $fileName1 = "201206";
+    private $fileName2 = "201205";
+    private $fileName3 = "201207";
 
     function setUp() {
-        @unlink($this->storage());
+        @unlink($this->storage($this->fileName1));
+        @unlink($this->storage($this->fileName2));
+        @unlink($this->storage($this->fileName3));
     }
 
     function tearDown() {
-        @unlink($this->storage());
+        @unlink($this->storage($this->fileName1));
+        @unlink($this->storage($this->fileName2));
+        @unlink($this->storage($this->fileName3));
     }
 
     function testBucketCreatesNewFileOnFirstFlight()
     {
-        $tFilename = $this->storage();
+        $tFilename = $this->storage($this->fileName1);
         $tFlight1 = strtotime($this->testFlight1);
 
         $bucket = new Bucket($tFlight1);
@@ -61,13 +66,11 @@ class TestOfBucket extends UnitTestCase
         $this->assertEqual($tExtraFlights2, array($tFlight2));
         $this->assertEqual($bucket2->flightCount(), 2);
         $this->assertEqual($bucket2->getFileName(), "201206");
-
-        @unlink($this->storagePath.$bucket1->getFileName().".php");
     }
 
-    private function storage()
+    private function storage($fileName)
     {
-        return $this->storagePath.$this->fileName.".php";
+        return GlobalStorage::$storageRoot.$fileName.".php";
     }
 }
 ?>
