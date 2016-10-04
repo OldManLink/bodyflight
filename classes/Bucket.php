@@ -33,6 +33,7 @@ class Bucket extends PersistentObject
             	print(date("Y-m-d H:i:s", $flight)." skipped\n");
         	};
     	};
+        unset($flight); // break the reference with the last element
         $this->saveToStorage();
 
         return array_values(array_filter($newFlights, array($this, "shouldReject")));

@@ -5,6 +5,6 @@ date_default_timezone_set('CET');
 
 class GlobalStorage
 {
-    public static $storageRoot = "../storage/";
+    public static $storageRoot = "storage/";
 }
 ?>

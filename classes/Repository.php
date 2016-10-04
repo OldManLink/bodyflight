@@ -6,6 +6,7 @@ class Repository extends PersistentObject
 {
     private $bucketNames = array();
     private $lastFlight = 0;
+    private $latestCheck = 0;
 
     public function Repository()
     {
@@ -14,15 +15,25 @@ class Repository extends PersistentObject
 
     public function addFlights($newFlights)
     {
+        print("Previous last flight: ".date("Y-m-d H:i:s", $this->lastFlight)."\n");
+        printf("Received %d flights\n", count($newFlights));
         $tFlights = $newFlights;
         while(count($tFlights) > 0)
         {
             $tBucket = $this->getBucket($tFlights[0]);
             $tFlights = $tBucket->addFlights($tFlights);
-            if($tBucket->isDirty()) $this->makeDirty();
+            if(0 == count($tFlights))
+            {
+                $this->lastFlight = $tBucket->getLastFlight();
+                $this->makeDirty();
+            };
         }
         $this->saveToStorage();
     }
+
+    public function getLastFlight() { return $this->lastFlight; }
+    public function getLatestCheck() { return $this->latestCheck; }
+    public function setLatestCheck($now) { $this->latestCheck = $now; }
 
     /**
      * Protected methods
@@ -37,6 +48,7 @@ class Repository extends PersistentObject
     {
         $this->bucketNames = $anotherRepo->bucketNames;
         $this->lastFlight = $anotherRepo->lastFlight;
+        $this->latestCheck = $anotherRepo->latestCheck;
     }
 
     /**

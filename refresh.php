@@ -1,4 +1,7 @@
 <?php
+require_once("bf_functions.php");
+require_once("classes/Repository.php");
+
 /**
  * Read the latest flights from the Bodyflight history page and update the local database.
  */
@@ -7,17 +10,18 @@
 //$url = "http://bodyflight.arcanel.se/history.php";
 $url = "http://home.bodyflight.se/VideoServer/index.jsp";
 
-require_once("bf_functions.php");
-loadServerState();
+
+$tRepository = new Repository();
+$tLatest = $tRepository->getLatestCheck();
+$tLastFlight = $tRepository->getLastFlight();
 
 $tNow = strtotime(date("Y-m-d H:i:s"));
-$tLatest = $gServerState['latestCheck'];
-$tLastFlight = $gServerState['lastFlight'];
 $refreshDelay = $tNow - $tLatest;
 
 print("<pre>\n");
 if ($refreshDelay >= 60 || $tLastFlight == 0)
 {
+    $tRepository->setLatestCheck($tNow);
     $pHistory = $tLastFlight > 0 ? "?history=".(round(($tNow - $tLastFlight)/60) + 1) : "";
     print("Local time: ".date("Y-m-d H:i:s", $tNow)."\n");
     print("Requesting ".$url.$pHistory."\n");
@@ -45,8 +49,7 @@ if ($refreshDelay >= 60 || $tLastFlight == 0)
         };
         unset($value); // break the reference with the last element
     }
-    addTimestamps($tFlights);
-    saveServerState();
+    $tRepository->addFlights($tFlights);
 } else
 {
     printf("Waiting %d seconds for next refresh\n", 60 - $refreshDelay);
