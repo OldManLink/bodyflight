@@ -31,6 +31,29 @@ class Repository extends PersistentObject
         $this->saveToStorage();
     }
 
+    public function getLatestFlights($pCount)
+    {
+        $tLatestFlight = $this->lastFlight;
+        $tLatestFlights = array($tLatestFlight);
+        $tBucket = $this->getBucket($tLatestFlight);
+        while ((count($tLatestFlights) < $pCount) && $tLatestFlight != null)
+        {
+            $tFlight = $tBucket->getPreviousFlight($tLatestFlight);
+            if ($tFlight == null)
+            {
+                $tBucket = $tBucket->getPrevious();
+                if ($tBucket != null)
+                {
+                    $tFlight = $tBucket->getLastFlight();
+                }
+
+            }
+            if ($tFlight != null) $tLatestFlights[] = $tFlight;
+            $tLatestFlight = $tFlight;
+        };
+        return array_reverse($tLatestFlights);
+    }
+
     public function getLastFlight() { return $this->lastFlight; }
     public function getLatestCheck() { return $this->latestCheck; }
     public function setLatestCheck($now) { $this->latestCheck = $now; }

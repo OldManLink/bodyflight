@@ -59,6 +59,20 @@ class Bucket extends PersistentObject
         return count($this->flights);
     }
 
+    public function getPrevious()
+    {
+        $lastMonth = (0 + $this->fileName - 1) . "01";
+        $lastMonthFlight = strtotime($lastMonth);
+        $lastMonthBucket = new Bucket($lastMonthFlight);
+        return ($lastMonthBucket->flightCount() > 0) ? $lastMonthBucket : null;
+    }
+
+    public function getPreviousFlight($pFlight)
+    {
+        $i = 0 + array_search($pFlight, $this->flights);
+        return ($i > 0) ? $this->flights[$i - 1] : null;
+    }
+
     /**
      * Protected methods
      */

@@ -68,6 +68,33 @@ class TestOfBucket extends UnitTestCase
         $this->assertEqual($bucket2->getFileName(), "201206");
     }
 
+    function testBucketReturnsPreviousFlights()
+    {
+        $tFlight0 = strtotime($this->testFlight1);
+        $tFlight1 = $tFlight0 + 120;
+        $tFlight2 = $tFlight1 + 120;
+
+        $bucket = new Bucket($tFlight0);
+        $bucket->addFlights(array($tFlight0, $tFlight1, $tFlight2));
+        $this->assertEqual($bucket->getPreviousFlight($tFlight2), $tFlight1);
+        $this->assertEqual($bucket->getPreviousFlight($tFlight1), $tFlight0);
+        $this->assertEqual($bucket->getPreviousFlight($tFlight0), null);
+    }
+
+    function testBucketReturnsPreviousBucket()
+    {
+        $tFlight2 = strtotime($this->testFlight2);
+        $tFlight1 = $tFlight2 - 120;
+        $tFlight0 = $tFlight1 - 120;
+
+        $bucket1 = new Bucket($tFlight1);
+        $bucket1->addFlights(array($tFlight0, $tFlight1));
+        $bucket2 = new Bucket($tFlight2);
+        $bucket2->addFlights(array($tFlight2));
+        $this->assertEqual($bucket2->getPrevious(), $bucket1);
+        $this->assertEqual($bucket1->getPrevious(), null);
+    }
+
     private function storage($fileName)
     {
         return GlobalStorage::$storageRoot.$fileName.".php";
