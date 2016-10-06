@@ -22,7 +22,7 @@ print("<pre>\n");
 if ($refreshDelay >= 60 || $tLastFlight == 0)
 {
     $tRepository->setLatestCheck($tNow);
-    $pHistory = $tLastFlight > 0 ? "?history=".(round(($tNow - $tLastFlight)/60) + 1) : "";
+    $pHistory = $tLastFlight > 0 ? "?history=".(round(($tNow - $tLastFlight)/60) + 2) : "";
     print("Local time: ".date("Y-m-d H:i:s", $tNow)."\n");
     print("Requesting ".$url.$pHistory."\n");
     $result = get_web_page( $url.$pHistory );
