@@ -1,2 +1,2 @@
 RewriteEngine On
-RewriteRule ^/?flights.html$ flights.php [L]
+RewriteRule ^/flights/(.+)$ flights.php?latest=$1 [L]
